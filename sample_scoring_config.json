@@ -1,0 +1,70 @@
+{
+  "UsersAdditions": ["Sample User"],
+  "AuthorizedUsers": ["Tim Cook", "Bill Gates", "Joe Biden"],
+  "UnauthorizedUsers": ["Donald Trump", "Johnny Appleseed"],
+  "deviceRestrictions": {
+    "guestUserDisabled": true,
+    "forceEphemeralUsers": true
+  },
+  "userRestrictions": {
+    "noCellular2g": false,
+    "disallowNfc": true,
+    "disallowConfigLocale": true
+  },
+  "passwordPolicies": {
+    "passwordQualityName": ["PASSWORD_QUALITY_COMPLEX", "PASSWORD_QUALITY_NUMERIC_COMPLEX"],
+    "passwordExpirationTimeout": 5184000000
+  },
+  "SettingsSecure": {
+    "settings_value": 0
+  },
+  "SettingsSystem": {
+    "settings_value": 0
+  },
+  "SettingsGlobal": {
+    "settings_value": 0,
+    "settings_value": 0
+  },
+  "additionalRestrictions": {
+    "disallowFactoryReset": true
+  },
+  "systemUpdatePolicy": {
+    "policyTypeName": "AUTOMATIC"
+  },
+  "fileDeletions": [
+    "/sdcard/Music/Song.mp3"
+  ],
+  "appDeletions": [
+    "com.example.package"
+  ],
+  "appUpdates": {
+    "com.example.pacakge": "1.0.0.0"
+  },
+  "appInstalls": ["com.example.package"],
+  "forensicsQuestions": {
+    "forensicsQuestion1": [
+      "What Color is the sky?",
+      "Blue"
+    ],
+    "forensicsQuestion2": [
+      "Where is nmap installed on this device",
+      "/data/local/tmp/nmap"
+    ],
+    "forensicsQuestion3": [
+      "What port number is the Frida server configured to listen on?",
+      "27042"
+    ]
+  },
+  "penaltiesandPoints": {
+    "updatePoints": 2,
+    "appInstallPoints": 2,
+    "appDeletionsPoints": 2,
+    "fileDeletionPoints": 4,
+    "settingsPoints": 3,
+    "policyPoints": 3,
+    "userPoints": 3,
+    "userPenalty": 3,
+    "appPenalty": 3,
+    "forensicsPoints": 5
+  }
+}
