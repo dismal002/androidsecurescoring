@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/dashboard_background_color">
 
     <!-- Setup Screen (shown on first run) -->
     <LinearLayout
@@ -13,35 +15,65 @@
         android:gravity="center"
         android:visibility="gone">
 
+        <ImageView
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:src="@mipmap/ic_launcher"
+            android:layout_marginBottom="24dp" />
+        
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Security Scoring Engine"
-            android:textSize="28sp"
+            android:textSize="24sp"
             android:textStyle="bold"
-            android:textColor="#1976D2"
-            android:layout_marginBottom="32dp" />
+            android:textColor="@color/theme_primary"
+            android:layout_marginBottom="16dp" />
 
         <TextView
             android:id="@+id/setupMessageTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Welcome! To begin, please select your scoring configuration file.\n\nThe configuration will be securely encrypted and stored on this device."
-            android:textSize="16sp"
+            android:textSize="15sp"
             android:gravity="center"
+            android:textColor="@color/text_secondary"
             android:layout_marginBottom="32dp"
-            android:lineSpacingMultiplier="1.3" />
+            android:lineSpacingMultiplier="1.4" />
 
         <Button
             android:id="@+id/selectConfigButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="56dp"
             android:text="Select Configuration File"
             android:textSize="16sp"
-            android:paddingStart="32dp"
-            android:paddingEnd="32dp"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp" />
+            android:textAllCaps="false"
+            android:paddingStart="48dp"
+            android:paddingEnd="48dp"
+            android:backgroundTint="@color/theme_accent"
+            android:layout_marginBottom="16dp" />
+
+        <Button
+            android:id="@+id/selectReadmeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:text="Select README.html (Optional)"
+            android:textSize="16sp"
+            android:textAllCaps="false"
+            android:paddingStart="48dp"
+            android:paddingEnd="48dp"
+            android:backgroundTint="@color/theme_accent"
+            android:enabled="false" />
+
+        <TextView
+            android:id="@+id/readmeStatusText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="14sp"
+            android:gravity="center"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/theme_accent" />
 
         <TextView
             android:layout_width="match_parent"
@@ -50,79 +82,150 @@
             android:textSize="12sp"
             android:gravity="center"
             android:layout_marginTop="32dp"
-            android:textColor="#666666"
+            android:textColor="@color/text_hint"
             android:lineSpacingMultiplier="1.2" />
     </LinearLayout>
 
     <!-- Main Screen (shown after configuration loaded) -->
-    <LinearLayout
+    <ScrollView
         android:id="@+id/mainLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/scoreTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Score: 0 / 0"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:padding="16dp"
-            android:background="#E3F2FD"
-            android:layout_marginBottom="16dp" />
+        android:visibility="gone"
+        android:padding="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="8dp">
+            android:orientation="vertical">
 
-            <Button
-                android:id="@+id/refreshButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Refresh Score"
-                android:layout_marginEnd="4dp" />
-
-            <Button
-                android:id="@+id/forensicsButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Forensics"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp" />
-
-            <Button
-                android:id="@+id/resetConfigButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Reset Config"
-                android:layout_marginStart="4dp" />
-        </LinearLayout>
-
-        <ScrollView
-            android:id="@+id/scrollView"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="#F5F5F5"
-            android:padding="8dp">
-
-            <TextView
-                android:id="@+id/reportTextView"
+            <!-- Score Card -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Loading scoring report..."
-                android:textSize="14sp"
-                android:fontFamily="monospace"
-                android:textColor="#000000" />
-        </ScrollView>
-    </LinearLayout>
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="24dp"
+                    android:background="@color/switchbar_background_color">
+                    
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Current Score"
+                        android:textSize="14sp"
+                        android:textColor="@color/white"
+                        android:alpha="0.87"
+                        android:gravity="center"
+                        android:layout_marginBottom="8dp" />
+                    
+                    <TextView
+                        android:id="@+id/scoreTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="0 / 0"
+                        android:textSize="42sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/switch_accent_color"
+                        android:gravity="center" />
+                    
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Points"
+                        android:textSize="14sp"
+                        android:textColor="@color/white"
+                        android:alpha="0.87"
+                        android:gravity="center"
+                        android:layout_marginTop="4dp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Action Buttons Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="16dp">
+
+                    <Button
+                        android:id="@+id/refreshButton"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:text="Refresh"
+                        android:textAllCaps="false"
+                        android:layout_marginEnd="4dp"
+                        android:backgroundTint="@color/theme_accent" />
+
+                    <Button
+                        android:id="@+id/forensicsButton"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:text="Forensics"
+                        android:textAllCaps="false"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="4dp"
+                        android:backgroundTint="@color/theme_accent" />
+
+                    <Button
+                        android:id="@+id/readmeButton"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:text="README"
+                        android:textAllCaps="false"
+                        android:layout_marginStart="4dp"
+                        android:backgroundTint="@color/theme_accent"
+                        android:visibility="gone" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Scoring Report Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Scoring Report"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_primary"
+                        android:layout_marginBottom="16dp" />
+
+                    <TextView
+                        android:id="@+id/reportTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Loading scoring report..."
+                        android:textSize="14sp"
+                        android:lineSpacingMultiplier="1.3"
+                        android:textColor="@color/text_primary" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+    </ScrollView>
 </FrameLayout>

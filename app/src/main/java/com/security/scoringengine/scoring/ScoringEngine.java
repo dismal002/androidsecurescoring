@@ -41,8 +41,11 @@ public class ScoringEngine {
         int totalPoints = 0;
         int maxPoints = calculateMaxPoints();
         
+        android.util.Log.d("ScoringEngine", "Starting score calculation. Max points: " + maxPoints);
+        
         try {
             PolicyState policyState = loadPolicyState();
+            android.util.Log.d("ScoringEngine", "Policy state loaded successfully");
             
             // Check users
             totalPoints += checkUsers(policyState, newScores);
@@ -70,7 +73,11 @@ public class ScoringEngine {
             // Check forensics questions
             totalPoints += checkForensicsQuestions(newScores);
             
+            android.util.Log.d("ScoringEngine", "Score calculation complete. Total: " + totalPoints + "/" + maxPoints);
+            android.util.Log.d("ScoringEngine", "Score items: " + newScores.size());
+            
         } catch (Exception e) {
+            android.util.Log.e("ScoringEngine", "Error calculating score", e);
             e.printStackTrace();
         }
         
@@ -312,9 +319,9 @@ public class ScoringEngine {
         int points = 0;
         if (config.fileDeletions != null) {
             for (String filePath : config.fileDeletions) {
-                File file = new File(filePath);
-                if (!file.exists()) {
-                    String fileName = file.getName();
+                boolean exists = checkFileExistsWithRoot(filePath);
+                if (!exists) {
+                    String fileName = new File(filePath).getName();
                     scores.put("file_" + filePath, new ScoreItem(
                         fileName + " has been deleted",
                         config.penaltiesandPoints.fileDeletionPoints,
@@ -324,6 +331,21 @@ public class ScoringEngine {
             }
         }
         return points;
+    }
+    
+    private boolean checkFileExistsWithRoot(String filePath) {
+        try {
+            Process process = Runtime.getRuntime().exec(new String[]{"su", "-c", "test -e " + filePath + " && echo exists"});
+            BufferedReader reader = new BufferedReader(new java.io.InputStreamReader(process.getInputStream()));
+            String result = reader.readLine();
+            int exitCode = process.waitFor();
+            reader.close();
+            return exitCode == 0 && "exists".equals(result);
+        } catch (Exception e) {
+            android.util.Log.w("ScoringEngine", "Error checking file existence: " + filePath, e);
+            // Fallback to regular file check
+            return new File(filePath).exists();
+        }
     }
 
     private int checkAppDeletions(Map<String, ScoreItem> scores) {
@@ -387,7 +409,8 @@ public class ScoringEngine {
 
     private int checkForensicsQuestions(Map<String, ScoreItem> scores) {
         int points = 0;
-        if (config.forensicsQuestions != null && !config.forensicsQuestions.isEmpty()) {
+        if (config.forensicsQuestions != null && !config.forensicsQuestions.isEmpty() && 
+            config.penaltiesandPoints != null) {
             SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
             String answeredJson = prefs.getString(PREFS_ANSWERED, "{}");
             
@@ -413,28 +436,72 @@ public class ScoringEngine {
     }
 
     private PolicyState loadPolicyState() throws Exception {
-        File file = new File("/data/data/com.deviceconfig.policymanager/policy_state.json");
-        StringBuilder sb = new StringBuilder();
-        BufferedReader br = new BufferedReader(new FileReader(file));
-        String line;
-        while ((line = br.readLine()) != null) {
-            sb.append(line);
-        }
-        br.close();
+        String filePath = "/data/data/com.deviceconfig.policymanager/policy_state.json";
         
-        Gson gson = new Gson();
-        return gson.fromJson(sb.toString(), PolicyState.class);
+        android.util.Log.d("ScoringEngine", "Reading policy file with root: " + filePath);
+        
+        try {
+            // Use su to read the file with root privileges
+            Process process = Runtime.getRuntime().exec(new String[]{"su", "-c", "cat " + filePath});
+            
+            BufferedReader reader = new BufferedReader(new java.io.InputStreamReader(process.getInputStream()));
+            BufferedReader errorReader = new BufferedReader(new java.io.InputStreamReader(process.getErrorStream()));
+            
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line);
+            }
+            
+            // Check for errors
+            StringBuilder errors = new StringBuilder();
+            while ((line = errorReader.readLine()) != null) {
+                errors.append(line).append("\n");
+            }
+            
+            int exitCode = process.waitFor();
+            reader.close();
+            errorReader.close();
+            
+            if (exitCode != 0) {
+                android.util.Log.e("ScoringEngine", "Failed to read policy file. Exit code: " + exitCode);
+                android.util.Log.e("ScoringEngine", "Error output: " + errors.toString());
+                throw new Exception("Failed to read policy file with root. Exit code: " + exitCode);
+            }
+            
+            String jsonContent = sb.toString();
+            if (jsonContent.isEmpty()) {
+                android.util.Log.e("ScoringEngine", "Policy file is empty or could not be read");
+                throw new Exception("Policy file is empty");
+            }
+            
+            android.util.Log.d("ScoringEngine", "Policy file read successfully. Length: " + jsonContent.length());
+            
+            Gson gson = new Gson();
+            PolicyState state = gson.fromJson(jsonContent, PolicyState.class);
+            
+            android.util.Log.d("ScoringEngine", "Policy state parsed. Users: " + 
+                (state.userProfiles != null ? state.userProfiles.size() : 0));
+            
+            return state;
+            
+        } catch (Exception e) {
+            android.util.Log.e("ScoringEngine", "Error reading policy file", e);
+            throw new Exception("Failed to read policy file: " + e.getMessage(), e);
+        }
     }
 
     private Map<String, String> readSettingsXml(String path) {
         Map<String, String> settings = new HashMap<>();
         try {
-            File file = new File(path);
-            if (!file.exists()) return settings;
+            android.util.Log.d("ScoringEngine", "Reading settings file with root: " + path);
             
-            BufferedReader br = new BufferedReader(new FileReader(file));
+            // Use su to read the file with root privileges
+            Process process = Runtime.getRuntime().exec(new String[]{"su", "-c", "cat " + path});
+            
+            BufferedReader reader = new BufferedReader(new java.io.InputStreamReader(process.getInputStream()));
             String line;
-            while ((line = br.readLine()) != null) {
+            while ((line = reader.readLine()) != null) {
                 if (line.contains("<setting")) {
                     String name = extractAttribute(line, "name");
                     String value = extractAttribute(line, "value");
@@ -443,9 +510,18 @@ public class ScoringEngine {
                     }
                 }
             }
-            br.close();
+            
+            int exitCode = process.waitFor();
+            reader.close();
+            
+            if (exitCode != 0) {
+                android.util.Log.w("ScoringEngine", "Failed to read settings file: " + path + " (exit code: " + exitCode + ")");
+            } else {
+                android.util.Log.d("ScoringEngine", "Settings file read. Found " + settings.size() + " settings");
+            }
+            
         } catch (Exception e) {
-            e.printStackTrace();
+            android.util.Log.w("ScoringEngine", "Error reading settings file: " + path, e);
         }
         return settings;
     }
@@ -485,6 +561,13 @@ public class ScoringEngine {
 
     private int calculateMaxPoints() {
         int max = 0;
+        
+        if (config.penaltiesandPoints == null) {
+            android.util.Log.e("ScoringEngine", "penaltiesandPoints is null in config!");
+            return 0;
+        }
+        
+        android.util.Log.d("ScoringEngine", "Calculating max points...");
         
         if (config.UsersAdditions != null) {
             max += config.UsersAdditions.size() * config.penaltiesandPoints.userPoints;

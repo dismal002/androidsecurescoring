@@ -168,32 +168,37 @@ public class ForensicsActivity extends AppCompatActivity {
     }
 
     private View createQuestionView(String questionId, String questionText, String answer) {
-        LinearLayout container = new LinearLayout(this);
-        container.setOrientation(LinearLayout.VERTICAL);
-        container.setPadding(16, 16, 16, 16);
-        container.setBackgroundResource(android.R.drawable.dialog_holo_light_frame);
-        
-        LinearLayout.LayoutParams containerParams = new LinearLayout.LayoutParams(
+        // Create Material Card
+        com.google.android.material.card.MaterialCardView card = 
+            new com.google.android.material.card.MaterialCardView(this);
+        LinearLayout.LayoutParams cardParams = new LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.WRAP_CONTENT
         );
-        containerParams.setMargins(0, 0, 0, 16);
-        container.setLayoutParams(containerParams);
+        cardParams.setMargins(0, 0, 0, 16);
+        card.setLayoutParams(cardParams);
+        card.setRadius(24);
+        card.setCardElevation(12);
+        
+        LinearLayout container = new LinearLayout(this);
+        container.setOrientation(LinearLayout.VERTICAL);
+        container.setPadding(48, 48, 48, 48);
 
         // Question ID
         TextView idTextView = new TextView(this);
         idTextView.setText(questionId);
         idTextView.setTextSize(12);
-        idTextView.setTextColor(0xFF666666);
-        idTextView.setPadding(0, 0, 0, 8);
+        idTextView.setTextColor(getResources().getColor(android.R.color.holo_blue_dark));
+        idTextView.setTypeface(null, android.graphics.Typeface.BOLD);
+        idTextView.setPadding(0, 0, 0, 12);
         container.addView(idTextView);
 
         // Question text
         TextView questionTextView = new TextView(this);
         questionTextView.setText(questionText);
         questionTextView.setTextSize(16);
-        questionTextView.setTextColor(0xFF000000);
-        questionTextView.setPadding(0, 0, 0, 16);
+        questionTextView.setTextColor(getResources().getColor(android.R.color.black));
+        questionTextView.setPadding(0, 0, 0, 20);
         container.addView(questionTextView);
 
         // Check if already answered
@@ -202,32 +207,35 @@ public class ForensicsActivity extends AppCompatActivity {
         if (isAnswered) {
             TextView answeredTextView = new TextView(this);
             answeredTextView.setText("✓ Answered Correctly");
-            answeredTextView.setTextSize(14);
-            answeredTextView.setTextColor(0xFF4CAF50);
-            answeredTextView.setTextStyle(android.graphics.Typeface.BOLD);
-            answeredTextView.setPadding(0, 8, 0, 8);
+            answeredTextView.setTextSize(15);
+            answeredTextView.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
+            answeredTextView.setTypeface(null, android.graphics.Typeface.BOLD);
+            answeredTextView.setPadding(0, 12, 0, 12);
             container.addView(answeredTextView);
         } else {
             // Answer input
             EditText answerInput = new EditText(this);
             answerInput.setHint("Enter your answer");
             answerInput.setSingleLine(true);
-            answerInput.setPadding(16, 16, 16, 16);
+            answerInput.setPadding(20, 20, 20, 20);
+            answerInput.setTextSize(15);
             container.addView(answerInput);
 
             // Submit button and cooldown text
             LinearLayout buttonContainer = new LinearLayout(this);
             buttonContainer.setOrientation(LinearLayout.HORIZONTAL);
-            buttonContainer.setPadding(0, 8, 0, 0);
+            buttonContainer.setPadding(0, 16, 0, 0);
 
             Button submitButton = new Button(this);
             submitButton.setText("Submit Answer");
             submitButton.setId(View.generateViewId());
+            submitButton.setAllCaps(false);
+            submitButton.setTextSize(15);
 
             TextView cooldownTextView = new TextView(this);
-            cooldownTextView.setTextSize(12);
-            cooldownTextView.setTextColor(0xFFFF5722);
-            cooldownTextView.setPadding(16, 0, 0, 0);
+            cooldownTextView.setTextSize(13);
+            cooldownTextView.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+            cooldownTextView.setPadding(20, 0, 0, 0);
             cooldownTextView.setVisibility(View.GONE);
 
             buttonContainer.addView(submitButton);
@@ -251,16 +259,17 @@ public class ForensicsActivity extends AppCompatActivity {
                     return;
                 }
 
-                checkAnswer(questionId, userAnswer, answer, answerInput, submitButton, cooldownTextView, container);
+                checkAnswer(questionId, userAnswer, answer, answerInput, submitButton, cooldownTextView, card);
             });
         }
 
-        return container;
+        card.addView(container);
+        return card;
     }
 
     private void checkAnswer(String questionId, String userAnswer, String correctAnswer,
                             EditText answerInput, Button submitButton, TextView cooldownTextView,
-                            LinearLayout container) {
+                            com.google.android.material.card.MaterialCardView card) {
         boolean isCorrect = userAnswer.equalsIgnoreCase(correctAnswer.trim());
 
         if (isCorrect) {
@@ -275,7 +284,7 @@ public class ForensicsActivity extends AppCompatActivity {
             }
 
             // Rebuild this question's view
-            questionsContainer.removeView(container);
+            questionsContainer.removeView(card);
             View newView = createQuestionView(questionId, 
                 config.forensicsQuestions.get(questionId).get(0), correctAnswer);
             questionsContainer.addView(newView, getQuestionIndex(questionId));

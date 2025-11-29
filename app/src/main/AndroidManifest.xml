@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.security.scoringengine">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -25,6 +24,15 @@
         </activity>
 
         <activity android:name=".ForensicsActivity"
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
+
+        <activity android:name=".AboutActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".MainActivity" />
+
+        <activity android:name=".ReadmeActivity"
             android:exported="false"
             android:parentActivityName=".MainActivity" />
 

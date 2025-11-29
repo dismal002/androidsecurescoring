@@ -1,0 +1,86 @@
+[
+    {
+        "merged": "/home/dismal/.gradle/daemon/8.9/com.security.scoringengine.app-merged_res-35:/mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "/home/dismal/.gradle/daemon/8.9/com.security.scoringengine.app-main-36:/mipmap-xhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/home/dismal/.gradle/daemon/8.9/com.security.scoringengine.app-merged_res-35:/layout_activity_about.xml.flat",
+        "source": "/home/dismal/.gradle/daemon/8.9/com.security.scoringengine.app-main-36:/layout/activity_about.xml"
+    },
+    {
+        "merged": "/home/dismal/.gradle/daemon/8.9/com.security.scoringengine.app-merged_res-35:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "/home/dismal/.gradle/daemon/8.9/com.security.scoringengine.app-main-36:/mipmap-xxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/home/dismal/.gradle/daemon/8.9/com.security.scoringengine.app-merged_res-35:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "/home/dismal/.gradle/daemon/8.9/com.security.scoringengine.app-main-36:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "/home/dismal/.gradle/daemon/8.9/com.security.scoringengine.app-merged_res-35:/mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "/home/dismal/.gradle/daemon/8.9/com.security.scoringengine.app-main-36:/mipmap-hdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/home/dismal/.gradle/daemon/8.9/com.security.scoringengine.app-merged_res-35:/mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "/home/dismal/.gradle/daemon/8.9/com.security.scoringengine.app-main-36:/mipmap-xxxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/home/dismal/.gradle/daemon/8.9/com.security.scoringengine.app-merged_res-35:/layout_activity_main.xml.flat",
+        "source": "/home/dismal/.gradle/daemon/8.9/com.security.scoringengine.app-main-36:/layout/activity_main.xml"
+    },
+    {
+        "merged": "/home/dismal/.gradle/daemon/8.9/com.security.scoringengine.app-merged_res-35:/layout_activity_forensics.xml.flat",
+        "source": "/home/dismal/.gradle/daemon/8.9/com.security.scoringengine.app-main-36:/layout/activity_forensics.xml"
+    },
+    {
+        "merged": "com.security.scoringengine.app-merged_res-35:/layout_activity_readme.xml.flat",
+        "source": "com.security.scoringengine.app-main-36:/layout/activity_readme.xml"
+    },
+    {
+        "merged": "/home/dismal/.gradle/daemon/8.9/com.security.scoringengine.app-merged_res-35:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "/home/dismal/.gradle/daemon/8.9/com.security.scoringengine.app-main-36:/mipmap-mdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/home/dismal/.gradle/daemon/8.9/com.security.scoringengine.app-merged_res-35:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "/home/dismal/.gradle/daemon/8.9/com.security.scoringengine.app-main-36:/mipmap-xxxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/home/dismal/.gradle/daemon/8.9/com.security.scoringengine.app-merged_res-35:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "/home/dismal/.gradle/daemon/8.9/com.security.scoringengine.app-main-36:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "/home/dismal/.gradle/daemon/8.9/com.security.scoringengine.app-merged_res-35:/layout_preference.xml.flat",
+        "source": "/home/dismal/.gradle/daemon/8.9/com.security.scoringengine.app-main-36:/layout/preference.xml"
+    },
+    {
+        "merged": "/home/dismal/.gradle/daemon/8.9/com.security.scoringengine.app-merged_res-35:/menu_main_menu.xml.flat",
+        "source": "/home/dismal/.gradle/daemon/8.9/com.security.scoringengine.app-main-36:/menu/main_menu.xml"
+    },
+    {
+        "merged": "/home/dismal/.gradle/daemon/8.9/com.security.scoringengine.app-merged_res-35:/mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "/home/dismal/.gradle/daemon/8.9/com.security.scoringengine.app-main-36:/mipmap-mdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/home/dismal/.gradle/daemon/8.9/com.security.scoringengine.app-merged_res-35:/mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "/home/dismal/.gradle/daemon/8.9/com.security.scoringengine.app-main-36:/mipmap-xxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/home/dismal/.gradle/daemon/8.9/com.security.scoringengine.app-merged_res-35:/mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "/home/dismal/.gradle/daemon/8.9/com.security.scoringengine.app-main-36:/mipmap-hdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.security.scoringengine.app-merged_res-35:/layout_activity_main.xml.flat",
+        "source": "com.security.scoringengine.app-main-36:/layout/activity_main.xml"
+    },
+    {
+        "merged": "/home/dismal/.gradle/daemon/8.9/com.security.scoringengine.app-merged_res-35:/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "/home/dismal/.gradle/daemon/8.9/com.security.scoringengine.app-main-36:/mipmap-xhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/home/dismal/.gradle/daemon/8.9/com.security.scoringengine.app-merged_res-35:/drawable_icon_base.xml.flat",
+        "source": "/home/dismal/.gradle/daemon/8.9/com.security.scoringengine.app-main-36:/drawable/icon_base.xml"
+    },
+    {
+        "merged": "/home/dismal/.gradle/daemon/8.9/com.security.scoringengine.app-merged_res-35:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "/home/dismal/.gradle/daemon/8.9/com.security.scoringengine.app-main-36:/drawable/ic_launcher_foreground.xml"
+    }
+]

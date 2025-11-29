@@ -1,6 +1,6 @@
-# Security Scoring Engine for Android
+# Security Scoring Engine for Android 9
 
-A secure scoring engine application for rooted Android devices that monitors and scores cybersecurity task completion.
+A secure scoring engine application for rooted Android 9 devices that monitors and scores cybersecurity task completion.
 
 ## Features
 
